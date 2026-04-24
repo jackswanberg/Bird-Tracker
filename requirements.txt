@@ -1,0 +1,26 @@
+# Bird-Tracker Dependencies
+# For Raspberry Pi OS, install system packages first:
+# sudo apt install python3-numpy python3-opencv python3-yaml python3-picamera2 python3-pil
+
+# Core dependencies (pre-installed on Raspberry Pi OS)
+numpy>=1.21.0
+opencv-python>=4.5.0
+PyYAML>=5.4
+
+# Raspberry Pi specific
+picamera2>=0.3.0  # For Raspberry Pi 5 CSI camera (pre-installed)
+
+# Deep Learning (for detection model)
+# For CPU-only on Raspberry Pi 5:
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Optional: For DSLR control via gPhoto2
+# gphoto2-cffi>=0.3.0  # Uncomment if using gPhoto2
+
+# Development/Testing (optional)
+pytest>=7.0.0
+pytest-cov>=3.0.0
+black>=22.0.0
+flake8>=4.0.0

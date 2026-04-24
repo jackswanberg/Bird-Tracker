@@ -1,0 +1,35 @@
+# Configuration for Bird Tracker System
+
+# Low-resolution camera (Raspberry Pi CSI camera)
+low_res_camera:
+  camera_index: 0          # Camera index on Raspberry Pi (0 for main CSI port)
+  resolution: [640, 480]   # Capture resolution (width, height)
+  fps: 30                  # Target frame rate
+  auto_white_balance: true
+  auto_exposure: true
+
+# DSLR camera for high-quality capture
+dslr:
+  enabled: false           # Set to true when DSLR is connected and configured
+  device_path: null        # e.g., /dev/ttyUSB0 or IP address for tethering
+  backend: gphoto2         # Control backend (gphoto2 for most DSLRs)
+  focus_mode: auto         # auto, continuous, or manual
+  capture_format: jpg
+
+# Model configuration
+model_path: checkpoints/bird_detector.pth
+confidence_threshold: 0.5
+
+# Tracker configuration
+tracker:
+  max_age: 30              # Frames to keep unmatched tracks
+  min_hits: 3              # Hits required before track confirmed
+
+# Quality assessment thresholds
+quality:
+  focus_threshold: 100.0   # Laplacian variance threshold for sharpness
+  brightness_threshold: 0.3  # Min brightness (0-1 normalized)
+  roi_fraction: 0.25       # Min fraction of image occupied by bird (25%)
+
+# Inference pipeline settings
+capture_cooldown: 5.0      # Minimum seconds between captures
