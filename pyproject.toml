@@ -20,7 +20,7 @@ classifiers = [
 
 [project.optional-dependencies]
 pi_camera = ["picamera2>=0.3.0"]
-detection = ["torch>=2.0.0", "torchvision>=0.15.0"]
+detection = ["numpy>=1.24.0,<2.0", "torch>=2.0.0", "torchvision>=0.15.0", "ultralytics>=8.0.0"]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=3.0.0",

@@ -114,6 +114,13 @@ dslr:
 python scripts/run_inference.py
 ```
 
+### Train or fine-tune a bird model
+```bash
+pip install -e .[detection]
+python -m bird_tracker.train --config configs/train.yaml
+```
+> **Note**: NumPy is pinned to 1.24.x to maintain binary compatibility with Raspberry Pi system packages (`picamera2`, `simplejpeg`). Newer NumPy 2.x versions will cause dtype size incompatibilities.
+
 ### Test Individual Components
 ```bash
 # Test camera

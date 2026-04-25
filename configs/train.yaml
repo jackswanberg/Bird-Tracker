@@ -1,0 +1,12 @@
+# Training configuration for bird detector.
+# The dataset should be in YOLO format with a data YAML file.
+
+train_data: data/birds/birds.yaml
+pretrained: yolov8n.pt
+epochs: 50
+batch_size: 16
+imgsz: 640
+device: cpu
+save_dir: checkpoints
+run_name: bird_detector
+export_path: checkpoints/bird_detector.pth
