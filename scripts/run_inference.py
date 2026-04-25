@@ -5,7 +5,8 @@ Loads config and starts the real-time system.
 """
 
 import yaml
-from src.bird_tracker.infer import InferencePipeline
+
+from bird_tracker.infer import InferencePipeline
 
 def main():
     with open('configs/config.yaml', 'r') as f:

@@ -42,13 +42,16 @@ pip install \
     black>=22.0.0 \
     flake8>=4.0.0
 
+# Install package in editable mode
+pip install -e .
+
 # Install PyTorch (CPU-only for Pi 5)
 echo "Installing PyTorch (this may take several minutes)..."
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 
 # 4. Verify installation
 echo -e "\n[4/4] Verifying installation..."
-python -c "import sys; sys.path.insert(0, 'src'); from bird_tracker.camera import LowResCamera; print('✓ Bird-Tracker packages imported successfully')"
+python -c "from bird_tracker.camera import LowResCamera; print('✓ Bird-Tracker packages imported successfully')"
 
 echo -e "\n✓ Setup complete!"
 echo ""

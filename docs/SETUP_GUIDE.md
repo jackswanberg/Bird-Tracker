@@ -66,7 +66,7 @@ pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 ### 6. Verify Installation
 
 ```bash
-python -c "import sys; sys.path.insert(0, 'src'); from bird_tracker.camera import LowResCamera; print('✓ Installation successful')"
+python -c "from bird_tracker.camera import LowResCamera; print('✓ Installation successful')"
 ```
 
 ## Activating the Virtual Environment

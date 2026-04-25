@@ -12,15 +12,11 @@ Usage:
     python examples/camera_example.py
 """
 
-import sys
 import time
 import cv2
 import yaml
 
-# Add src to path
-sys.path.insert(0, '/home/jrswanbe/Documents/Bird-Tracker')
-
-from src.bird_tracker.camera import LowResCamera
+from bird_tracker.camera import LowResCamera
 
 
 def main():

@@ -3,7 +3,7 @@
 ## Initialization
 
 ```python
-from src.bird_tracker.camera import LowResCamera
+from bird_tracker.camera import LowResCamera
 import yaml
 
 # From config file
@@ -125,9 +125,9 @@ except Exception as e:
 ## Integration with Bird Tracker Pipeline
 
 ```python
-from src.bird_tracker.camera import LowResCamera
-from src.bird_tracker.models.detector import BirdDetector
-from src.bird_tracker.trackers import Tracker
+from bird_tracker.camera import LowResCamera
+from bird_tracker.models.detector import BirdDetector
+from bird_tracker.trackers import Tracker
 import yaml
 
 # Load config

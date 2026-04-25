@@ -12,13 +12,10 @@ Usage:
     python tests/test_lowres_camera.py [--num-frames 10] [--display]
 """
 
-import sys
 import argparse
 import logging
+import sys
 import numpy as np
-
-# Add src to path
-sys.path.insert(0, '/home/jrswanbe/Documents/Bird-Tracker')
 
 logging.basicConfig(
     level=logging.INFO,
@@ -30,7 +27,7 @@ logger = logging.getLogger(__name__)
 def test_camera_init():
     """Test camera initialization."""
     logger.info("Testing camera initialization...")
-    from src.bird_tracker.camera import LowResCamera
+    from bird_tracker.camera import LowResCamera
     
     config = {
         'camera_index': 0,

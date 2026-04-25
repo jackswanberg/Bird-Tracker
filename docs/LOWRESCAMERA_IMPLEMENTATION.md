@@ -140,7 +140,7 @@ pip install opencv-python pyyaml
 The `InferencePipeline` uses `LowResCamera` as follows:
 
 ```python
-from src.bird_tracker.infer import InferencePipeline
+from bird_tracker.infer import InferencePipeline
 import yaml
 
 # Load config

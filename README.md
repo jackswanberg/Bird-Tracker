@@ -42,11 +42,15 @@ This installs all dependencies automatically.
    source venv/bin/activate
    ```
 
-3. **Install Python packages**:
+3. **Install the package and dependencies**:
    ```bash
    pip install --upgrade pip
-   pip install pytest black flake8
+   pip install -e .
    pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+   ```
+   Optional: install extra features for Pi camera and detection models:
+   ```bash
+   pip install -e .[pi_camera,detection]
    ```
 
 For detailed setup instructions, see [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md)
