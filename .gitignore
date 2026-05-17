@@ -1,6 +1,7 @@
 # ignore data files
 data/processed/
 data/raw/
+data
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

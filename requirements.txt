@@ -16,8 +16,8 @@ picamera2>=0.3.0  # For Raspberry Pi 5 CSI camera (pre-installed)
 torch>=2.0.0
 torchvision>=0.15.0
 
-# Optional: For DSLR control via gPhoto2
-# gphoto2-cffi>=0.3.0  # Uncomment if using gPhoto2
+# For DSLR control via gPhoto2
+gphoto2>=2.3.0
 
 # Development/Testing (optional)
 pytest>=7.0.0
