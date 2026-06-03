@@ -17,7 +17,10 @@ dslr:
   capture_format: jpg
 
 # Model configuration
-model_path: checkpoints/bird_detector.pth
+# backend: 'cpu'   — Ultralytics YOLO on Pi 5 CPU (default)
+# backend: 'hailo' — YOLOv6n on Hailo AI Hat
+backend: hailo
+model_path: src/bird_tracker/models/yolov6n_h8l.hef
 confidence_threshold: 0.5
 
 # Tracker configuration
