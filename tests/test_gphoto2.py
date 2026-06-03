@@ -116,14 +116,12 @@ def test_autofocus_sets_widget_value(connected_cam, monkeypatch):
     cam, camera_mock, _ = connected_cam
     monkeypatch.setattr(time, "sleep", lambda _: None)
 
-    config_mock = MagicMock()
     af_widget = MagicMock()
-    config_mock.get_child_by_path.return_value = af_widget
-    camera_mock.get_config.return_value = config_mock
+    camera_mock.get_single_config.return_value = af_widget
 
     assert cam.autofocus()
     af_widget.set_value.assert_called_once_with(1)
-    camera_mock.set_config.assert_called_once_with(config_mock)
+    camera_mock.set_single_config.assert_called_once_with(NikonZ6II._CFG['autofocus'], af_widget)
 
 
 def test_autofocus_returns_false_when_not_connected():
@@ -136,7 +134,7 @@ def test_autofocus_returns_false_when_not_connected():
 def test_autofocus_returns_false_on_error(connected_cam, monkeypatch):
     cam, camera_mock, _ = connected_cam
     monkeypatch.setattr(time, "sleep", lambda _: None)
-    camera_mock.get_config.side_effect = _GPhoto2Error("config error")
+    camera_mock.get_single_config.side_effect = _GPhoto2Error("config error")
     assert not cam.autofocus()
 
 
@@ -225,59 +223,50 @@ def test_focus_and_capture_returns_none_when_disabled():
 
 def test_get_config_value_returns_string(connected_cam):
     cam, camera_mock, _ = connected_cam
-    config_mock = MagicMock()
     widget = MagicMock()
     widget.get_value.return_value = "800"
-    config_mock.get_child_by_path.return_value = widget
-    camera_mock.get_config.return_value = config_mock
+    camera_mock.get_single_config.return_value = widget
 
     assert cam.get_config_value('iso') == "800"
-    config_mock.get_child_by_path.assert_called_once_with(NikonZ6II._CFG['iso'])
+    camera_mock.get_single_config.assert_called_once_with(NikonZ6II._CFG['iso'])
 
 
 def test_set_config_value_calls_set_config(connected_cam):
     cam, camera_mock, _ = connected_cam
-    config_mock = MagicMock()
     widget = MagicMock()
-    config_mock.get_child_by_path.return_value = widget
-    camera_mock.get_config.return_value = config_mock
+    camera_mock.get_single_config.return_value = widget
 
     assert cam.set_config_value('iso', '1600')
     widget.set_value.assert_called_once_with('1600')
-    camera_mock.set_config.assert_called_with(config_mock)
+    camera_mock.set_single_config.assert_called_with(NikonZ6II._CFG['iso'], widget)
 
 
 def test_set_iso(connected_cam):
     cam, camera_mock, _ = connected_cam
-    config_mock = MagicMock()
-    camera_mock.get_config.return_value = config_mock
+    camera_mock.get_single_config.return_value = MagicMock()
     cam.set_iso(3200)
-    config_mock.get_child_by_path.assert_called_with(NikonZ6II._CFG['iso'])
+    camera_mock.get_single_config.assert_called_with(NikonZ6II._CFG['iso'])
 
 
 def test_set_aperture(connected_cam):
     cam, camera_mock, _ = connected_cam
-    config_mock = MagicMock()
-    camera_mock.get_config.return_value = config_mock
+    camera_mock.get_single_config.return_value = MagicMock()
     cam.set_aperture('5.6')
-    config_mock.get_child_by_path.assert_called_with(NikonZ6II._CFG['aperture'])
+    camera_mock.get_single_config.assert_called_with(NikonZ6II._CFG['aperture'])
 
 
 def test_set_shutter_speed(connected_cam):
     cam, camera_mock, _ = connected_cam
-    config_mock = MagicMock()
-    camera_mock.get_config.return_value = config_mock
+    camera_mock.get_single_config.return_value = MagicMock()
     cam.set_shutter_speed('1/1000')
-    config_mock.get_child_by_path.assert_called_with(NikonZ6II._CFG['shutter_speed'])
+    camera_mock.get_single_config.assert_called_with(NikonZ6II._CFG['shutter_speed'])
 
 
 def test_get_battery_level(connected_cam):
     cam, camera_mock, _ = connected_cam
-    config_mock = MagicMock()
     widget = MagicMock()
     widget.get_value.return_value = "75%"
-    config_mock.get_child_by_path.return_value = widget
-    camera_mock.get_config.return_value = config_mock
+    camera_mock.get_single_config.return_value = widget
 
     assert cam.get_battery_level() == "75%"
 
