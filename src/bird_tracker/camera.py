@@ -61,6 +61,7 @@ class LowResCamera:
         self.fps = config.get('fps', 30)
         self.auto_white_balance = config.get('auto_white_balance', True)
         self.auto_exposure = config.get('auto_exposure', True)
+        self.rotate_180 = config.get('rotate_180', False)
         
         try:
             self.picam2 = Picamera2(self.camera_index)
@@ -102,7 +103,10 @@ class LowResCamera:
             # Convert RGB to BGR for OpenCV compatibility
             rgb_frame = np.asarray(array)
             bgr_frame = rgb_frame[..., ::-1].copy()  # Reverse channels and ensure contiguous
-            
+
+            if self.rotate_180:
+                bgr_frame = np.ascontiguousarray(bgr_frame[::-1, ::-1])
+
             return bgr_frame
         
         except Exception as e:
