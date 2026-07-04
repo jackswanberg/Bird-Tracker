@@ -23,6 +23,7 @@ dslr:
 backend: hailo
 model_path: src/bird_tracker/models/yolov6n_h8l.hef
 confidence_threshold: 0.5
+target_class_ids: [0, 14]   # 0=person (debug stand-in), 14=bird (COCO)
 
 # Tracker configuration
 tracker:
@@ -34,6 +35,24 @@ quality:
   focus_threshold: 100.0   # Laplacian variance threshold for sharpness
   brightness_threshold: 0.3  # Min brightness (0-1 normalized)
   roi_fraction: 0.25       # Min fraction of image occupied by bird (25%)
+
+# Pan-tilt gimbal (Feetech ST3215 serial bus servos via controller board)
+# Install SDK with: pip install scservo_sdk
+gimbal:
+  port:           /dev/ttyUSB0   # Serial port of the servo controller board
+  baud_rate:      1000000        # ST3215 default baud rate
+  pan_servo_id:   1              # Bus ID of the pan  servo
+  tilt_servo_id:  2              # Bus ID of the tilt servo
+  pan_min:          0            # Travel limits (degrees)
+  pan_max:        180
+  tilt_min:        45            # Restrict to avoid hitting the rig
+  tilt_max:       135
+  center_pan:      90            # Home/neutral position
+  center_tilt:     90
+  camera_hfov:     66            # Pi camera IMX708 horizontal FOV (degrees)
+  camera_vfov:     41            # Pi camera IMX708 vertical FOV  (degrees)
+  kp:               0.3          # Proportional gain — raise to react faster, lower to reduce oscillation
+  deadzone_px:     20            # Pixel radius around centre to ignore (avoids jitter)
 
 # Inference pipeline settings
 capture_cooldown: 5.0      # Minimum seconds between captures

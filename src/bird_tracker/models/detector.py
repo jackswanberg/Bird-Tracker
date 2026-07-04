@@ -10,8 +10,9 @@ Use create_detector(config) to get the right instance automatically.
 
 import contextlib
 from pathlib import Path
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Tuple
 
+import cv2
 import numpy as np
 
 try:
@@ -215,3 +216,60 @@ def create_detector(config: dict):
         hef_path = config.get('model_path', 'src/bird_tracker/models/yolov6n_h8l.hef')
         return HailoBirdDetector(hef_path, config)
     return BirdDetector(config.get('model_path', 'yolov8n.pt'), config)
+
+
+# ---------------------------------------------------------------------------
+# Detection utilities
+# ---------------------------------------------------------------------------
+
+def bbox_centre(det: Detection) -> Tuple[float, float]:
+    """Return the (cx, cy) centre pixel of a detection's bounding box."""
+    x1, y1, x2, y2 = det.bbox
+    return (x1 + x2) / 2, (y1 + y2) / 2
+
+
+def draw_detections(frame: np.ndarray, detections: List[Detection]) -> np.ndarray:
+    """
+    Draw bounding boxes, labels, centre dots, and offset arrows onto frame.
+
+    Draws a crosshair at the frame centre and an arrow from it to each
+    detection centre so gimbal targeting offset is immediately visible.
+
+    Returns the annotated frame (modifies in place).
+    """
+    h, w = frame.shape[:2]
+    cx_frame, cy_frame = w / 2, h / 2
+
+    cv2.drawMarker(frame, (int(cx_frame), int(cy_frame)),
+                   (0, 200, 255), cv2.MARKER_CROSS, 20, 1)
+
+    for det in detections:
+        x1, y1, x2, y2 = (int(v) for v in det.bbox)
+        cx, cy = bbox_centre(det)
+
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        cv2.putText(frame, f"cls:{det.class_id} {det.confidence:.2f}",
+                    (x1, max(y1 - 6, 10)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+        cv2.circle(frame, (int(cx), int(cy)), 4, (0, 255, 0), -1)
+        cv2.arrowedLine(frame,
+                        (int(cx_frame), int(cy_frame)),
+                        (int(cx), int(cy)),
+                        (0, 200, 255), 1, tipLength=0.15)
+    return frame
+
+
+def print_detections(frame_idx: int, detections: List[Detection],
+                     frame_w: int, frame_h: int) -> None:
+    """Print detection pixel locations and frame-centre offsets to stdout."""
+    cx_frame, cy_frame = frame_w / 2, frame_h / 2
+    print(f"\nframe {frame_idx:5d} — {len(detections)} detection(s)")
+    for i, det in enumerate(detections):
+        cx, cy = bbox_centre(det)
+        dx, dy = cx - cx_frame, cy - cy_frame
+        x1, y1, x2, y2 = (round(v, 1) for v in det.bbox)
+        offset = (f"{'R' if dx >= 0 else 'L'}{abs(dx):.0f}px "
+                  f"{'D' if dy >= 0 else 'U'}{abs(dy):.0f}px")
+        print(f"  [{i}] cls:{det.class_id} conf:{det.confidence:.2f}  "
+              f"bbox=({x1},{y1},{x2},{y2})  "
+              f"centre=({cx:.1f},{cy:.1f})  offset={offset}")
